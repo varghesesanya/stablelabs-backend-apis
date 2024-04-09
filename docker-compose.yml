@@ -1,32 +1,23 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  node-app:
-    build: .
-    image: node-app
+  # Choose Latest MongoDB Database
+  mongo:
+    image: mongo:latest
     environment:
-      - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - '8085:8085'
-    depends_on:
-      - mongodb
-    volumes:
-      - .:/src
-    networks:
-      - node-network
+      - 35000:5432
 
-  mongodb:
-    image: mongo:6-jammy
+  # The MongoDB Admin tool
+  mongo_admin:
+    image: mongo-express
+    depends_on: 
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
     ports:
-      - '27017:27017'
-    volumes:
-      - dbdata6:/data/db
-    networks:
-      - node-network
-
-volumes:
-  dbdata6:
-
-networks:
-  node-network:
-    driver: bridge
+      - 5050:80
