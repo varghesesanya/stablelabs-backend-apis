@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Logger, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UserInterface } from '../model/user.interface';
 import { UserService } from '../service/user-service/user.service';
@@ -11,8 +11,19 @@ export class UserController {
   ) { }
 
   @Post('create-account')
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserInterface> {
-    return this.userService.create(createUserDto);
+  async create(@Res() response, @Body() createUserDto: CreateUserDto): Promise<UserInterface> {
+    try {
+      const newStudent = await this.userService.createUserAccount(createUserDto);
+      return response.status(HttpStatus.CREATED).json({
+      message: 'User has been created successfully',
+      newStudent,});
+   } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+      statusCode: 400,
+      message: 'Error: User not created!',
+      error: 'Bad Request'
+   });
+   }
   }
 
 
