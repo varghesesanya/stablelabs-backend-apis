@@ -3,9 +3,6 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } fr
 @Entity()
 export class UserEntity {
 
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({unique: true})
   username: string;
 

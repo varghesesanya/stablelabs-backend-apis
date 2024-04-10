@@ -7,5 +7,7 @@ export class CreateUserDto extends LoginUserDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+  email: string;
+  password: string;
 
 }
