@@ -2,8 +2,7 @@ import { BadRequestException, Body, Controller, Get, HttpStatus, Logger, Post, Q
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UserInterface } from '../model/user.interface';
 import { UserService } from '../service/user-service/user.service';
-import { verifyUserWalletAddress } from 'src/alchemy/tets';
-import { Wallet } from 'alchemy-sdk';
+import { verifyUserWalletAddress } from 'src/alchemy/alchemy-multichain-validation';
 import { ethers } from 'ethers';
 @Controller('users')
 export class UserController {
