@@ -12,6 +12,9 @@ export class UserEntity {
   @Column({select: false})
   password: string;
 
+  @Column({unique: true})
+  walletAddress :  string;
+
   @BeforeInsert()
   @BeforeUpdate()
   emailToLowerCase() {

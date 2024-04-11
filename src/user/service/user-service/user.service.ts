@@ -5,6 +5,7 @@ import { error } from 'console';
 import { Model } from 'mongoose';
 import { CreateUserDto } from 'src/user/model/dto/create-user.dto';
 import { UserInterface } from 'src/user/model/user.interface';
+import Web3 from 'web3';
 
 const bcrypt = require('bcrypt');
 
@@ -17,8 +18,9 @@ export class UserService {
   ) { }
 
   async createUserAccount(createUserDto: CreateUserDto): Promise<UserInterface> {
-      const newStudent = await new this.userModel(createUserDto);
-      return newStudent.save();
+      const newUser = await new this.userModel(createUserDto);
+      console.log("User Saved")
+      return newUser.save();
 
   }
 
@@ -31,5 +33,4 @@ export class UserService {
       return false;
     }
   }
-
 }

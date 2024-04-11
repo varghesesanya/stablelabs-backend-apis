@@ -9,5 +9,7 @@ export class CreateUserDto extends LoginUserDto {
   username: string;
   email: string;
   password: string;
+  walletAddress: string;
+  signature: string;
 
 }

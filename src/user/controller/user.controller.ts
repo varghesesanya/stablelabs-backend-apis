@@ -1,7 +1,10 @@
-import { Body, Controller, Get, HttpStatus, Logger, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Logger, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UserInterface } from '../model/user.interface';
 import { UserService } from '../service/user-service/user.service';
+import { verifyUserWalletAddress } from 'src/alchemy/tets';
+import { Wallet } from 'alchemy-sdk';
+import { ethers } from 'ethers';
 @Controller('users')
 export class UserController {
 
@@ -13,6 +16,20 @@ export class UserController {
   @Post('create-account')
   async create(@Res() response, @Body() createUserDto: CreateUserDto): Promise<UserInterface> {
     try {
+      console.log("In the Create Account" + createUserDto)
+
+      if (ethers.isAddress(createUserDto.walletAddress)){
+        console.log("ADDRESS EXISTS for address ::: " + createUserDto
+          .walletAddress
+        )
+      }
+
+      const isSignatureValid = await verifyUserWalletAddress(createUserDto.walletAddress);
+
+        if (!isSignatureValid) {
+          throw new BadRequestException('Invalid Wallet Address');
+        }  
+      console.log("Wallet Validated")  
       const newStudent = await this.userService.createUserAccount(createUserDto);
       return response.status(HttpStatus.CREATED).json({
       message: 'User has been created successfully',
