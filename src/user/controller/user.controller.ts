@@ -4,11 +4,14 @@ import { UserInterface } from '../model/user.interface';
 import { UserService } from '../service/user-service/user.service';
 import { verifyUserWalletAddress } from 'src/alchemy/alchemy-multichain-validation';
 import { ethers } from 'ethers';
+import { LoginUserDto } from '../model/dto/login-user.dto';
+import { LoginResponseInterface } from '../model/login.interface';
 @Controller('users')
 export class UserController {
 
   constructor(
     private userService: UserService,
+  
 
   ) { }
 
@@ -43,15 +46,14 @@ export class UserController {
   }
 
 
-//   @Post('login')
-//   async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponseI> {
-//     const userEntity: UserInterface = this.userHelperService.loginUserDtoToEntity(loginUserDto);
-//     const jwt: string = await this.userService.login(userEntity);
-//     return {
-//       access_token: jwt,
-//       token_type: 'JWT',
-//       expires_in: 10000
-//     };
-//   }
+  @Post('user-login')
+  async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponseInterface> {
+    const jwt: string = await this.userService.login(loginUserDto);
+    return {
+      access_token: jwt,
+      token_type: 'JWT',
+      expires_in: 10000
+    };
+  }
 
 }
