@@ -11,7 +11,7 @@ export class CreateUserDto extends LoginUserDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
-    example: 'rsayani',
+    example: 'rsayani@gmail.com',
     required: true
  })
   username: string;
