@@ -1,4 +1,4 @@
-import { Alchemy, AlchemySettings, Network } from 'alchemy-sdk';
+import { Alchemy, AlchemySettings, Network, TokenBalancesResponse } from 'alchemy-sdk';
 
 export class AlchemyMultichainClient {
   readonly settings: AlchemyMultichainSettings;
@@ -38,6 +38,18 @@ export class AlchemyMultichainClient {
       return { isValid: false };
     }
   }
+
+  async getTokenBalance(network: Network, walletAddress: string, tokenAddress: string[]): Promise<TokenBalancesResponse>{
+    try {
+      const alchemyInstance = this.forNetwork(network);
+      const balances = await alchemyInstance.core.getTokenBalances(walletAddress, tokenAddress);
+      return balances;
+    } catch (error) {
+      throw new Error(`Error fetching token balances: ${error.message}`);
+    }
+  }
+
+
 }
 
 export type AlchemyMultichainSettings = Omit<AlchemySettings, 'network'>;
