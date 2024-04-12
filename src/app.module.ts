@@ -9,6 +9,8 @@ import { AuthService } from './auth/auth.service';
 import { UserController } from './user/controller/user.controller';
 import { UserSchema } from './user/model/schema/user.schema';
 import { UserService } from './user/service/user-service/user.service';
+import { WalletService } from './wallet/wallet-tracker.service';
+import { WalletController } from './wallet/wallet-tracker.controller';
 
 @Module({
   imports: [
@@ -22,8 +24,8 @@ import { UserService } from './user/service/user-service/user.service';
       synchronize: true,
     })
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService, AuthService, JwtService],
+  controllers: [AppController, UserController, WalletController],
+  providers: [AppService, UserService, AuthService, JwtService, WalletService],
 })
 export class AppModule {
   constructor() {

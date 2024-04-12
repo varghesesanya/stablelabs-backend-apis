@@ -33,8 +33,6 @@ export class UserService {
     } catch {
       throw new HttpException('Email is already in use', HttpStatus.CONFLICT);
     }
-
-
   }
 
 
