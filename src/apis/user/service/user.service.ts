@@ -6,7 +6,7 @@ import { CreateUserDto } from 'src/apis/user/model/dto/create-user.dto';
 import { LoginUserDto } from 'src/apis/user/model/dto/login-user.dto';
 import { UserInterface } from 'src/apis/user/model/interface/user.interface';
 import { ActivateUserDto } from '../model/dto/activate-user.dto';
-import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-validation';
+import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-config';
 import { UserModel } from '../model/model/user.model';
 const bcrypt = require('bcrypt');
 

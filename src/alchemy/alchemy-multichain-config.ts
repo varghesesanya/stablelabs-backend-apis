@@ -1,5 +1,5 @@
 import { AlchemyMultichainClient } from './alchemy-multichain-client';
-import { Network, TokenBalancesResponse } from 'alchemy-sdk';
+import { AssetTransfersResponse, Network, TokenBalancesResponse } from 'alchemy-sdk';
 
 export class AlchemyMultichainConfig{
   defaultConfig = {
@@ -27,6 +27,29 @@ export class AlchemyMultichainConfig{
   async getTokenBalance(walletAddress: string, tokenAddress: string[]): Promise<TokenBalancesResponse>{
     const ethResponse = await this.alchemy.getTokenBalance(Network.ETH_MAINNET, walletAddress, tokenAddress);
     return ethResponse
+  }
+
+  async getTransactionsFromAddress(walletAddress: string, page: number = 1, pageSize: number = 10): Promise<AssetTransfersResponse> {
+    try {
+      const ethResponse: AssetTransfersResponse = await this.alchemy.getTransactionsFromAddress(Network.ETH_MAINNET, walletAddress);
+      
+      // Calculate pagination indices
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+  
+      // Slice the transactions array based on pagination indices
+      const paginatedTransactions = ethResponse.transfers.slice(startIndex, endIndex);
+  
+      // Update the response object with paginated transactions
+      const paginatedResponse: AssetTransfersResponse = {
+        ...ethResponse,
+        transfers: paginatedTransactions,
+      };
+  
+      return paginatedResponse;
+    } catch (error) {
+      throw new Error(`Error fetching transactions: ${error.message}`);
+    }
   }
   
 }

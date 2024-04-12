@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { WalletTrackerInterface } from './wallter-tracker.interface';
 import { TokenBalancesResponse } from 'alchemy-sdk';
-import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-validation';
+import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-config';
 
 @Injectable()
 export class WalletService {

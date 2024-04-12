@@ -9,8 +9,10 @@ import { UserSchema } from './apis/user/model/schema/user.schema';
 import { UserService } from './apis/user/service/user.service';
 import { WalletService } from './apis/wallet/wallet-tracker.service';
 import { WalletController } from './apis/wallet/wallet-tracker.controller';
-import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-validation';
+import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-config';
 import { UserModel } from './apis/user/model/model/user.model';
+import { TransactionService } from './apis/transactions/transactions.service';
+import { TransactionControler } from './apis/transactions/transactions.controller';
 
 @Module({
   imports: [
@@ -28,8 +30,8 @@ import { UserModel } from './apis/user/model/model/user.model';
       signOptions: { expiresIn: '1h' }, // Optional: token expiration time
     })
   ],
-  controllers: [UserController, WalletController],
-  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig, UserModel],
+  controllers: [UserController, WalletController,TransactionControler],
+  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig, UserModel, TransactionService],
 })
 export class AppModule {
   constructor() {
