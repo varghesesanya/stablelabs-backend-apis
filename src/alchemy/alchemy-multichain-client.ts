@@ -1,4 +1,4 @@
-import { Alchemy, AlchemySettings, AssetTransfersCategory, AssetTransfersResponse, BigNumber, Network, SortingOrder, TokenBalancesResponse } from 'alchemy-sdk';
+import { Alchemy, AlchemySettings, AssetTransfersCategory, AssetTransfersResponse, BigNumber, Network, OwnedBaseNft, OwnedNftsResponse, SortingOrder, TokenBalancesResponse } from 'alchemy-sdk';
 
 export class AlchemyMultichainClient {
   readonly settings: AlchemyMultichainSettings;
@@ -67,6 +67,16 @@ export class AlchemyMultichainClient {
       return ethResponse;
     } catch (error) {
       throw new Error(`Error fetching transactions: ${error.message}`);
+    }
+  }
+
+  async getNFTForOwners(network: Network, walletAddress: string): Promise<OwnedNftsResponse>{
+    try {
+      const alchemyInstance = this.forNetwork(network);
+      const ethResponse :OwnedNftsResponse = await alchemyInstance.nft.getNftsForOwner(walletAddress);
+      return ethResponse;
+    } catch (error) {
+      throw new Error(`Error fetching nft details: ${error.message}`);
     }
   }
 }

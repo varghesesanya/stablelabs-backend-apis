@@ -13,6 +13,8 @@ import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-config';
 import { UserModel } from './apis/user/model/model/user.model';
 import { TransactionService } from './apis/transactions/transactions.service';
 import { TransactionControler } from './apis/transactions/transactions.controller';
+import { NFTService } from './apis/nft/nft.service';
+import { NFTController } from './apis/nft/nft.controller';
 
 @Module({
   imports: [
@@ -30,8 +32,8 @@ import { TransactionControler } from './apis/transactions/transactions.controlle
       signOptions: { expiresIn: '1h' }, // Optional: token expiration time
     })
   ],
-  controllers: [UserController, WalletController,TransactionControler],
-  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig, UserModel, TransactionService],
+  controllers: [UserController, WalletController,TransactionControler, NFTController],
+  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig, UserModel, TransactionService, NFTService],
 })
 export class AppModule {
   constructor() {

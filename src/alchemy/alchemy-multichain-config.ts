@@ -1,5 +1,5 @@
 import { AlchemyMultichainClient } from './alchemy-multichain-client';
-import { AssetTransfersResponse, Network, TokenBalancesResponse } from 'alchemy-sdk';
+import { AssetTransfersResponse, Network, OwnedNftsResponse, TokenBalancesResponse } from 'alchemy-sdk';
 
 export class AlchemyMultichainConfig{
   defaultConfig = {
@@ -51,5 +51,11 @@ export class AlchemyMultichainConfig{
       throw new Error(`Error fetching transactions: ${error.message}`);
     }
   }
+
+  async getNftsForOwner(walletAddress: string): Promise<OwnedNftsResponse>{
+    const ethResponse = await this.alchemy.getNFTForOwners(Network.ETH_MAINNET, walletAddress);
+    return ethResponse
+  }
+
   
 }
