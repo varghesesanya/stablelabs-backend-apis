@@ -2,7 +2,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserInterface } from '../user.interface';
+import { UserInterface } from '../interface/user.interface';
 
 @Injectable()
 export class UserModel {

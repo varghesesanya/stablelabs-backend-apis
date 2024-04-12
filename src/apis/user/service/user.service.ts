@@ -4,9 +4,8 @@ import { Model } from 'mongoose';
 import { AuthService } from 'src/apis/auth/auth.service';
 import { CreateUserDto } from 'src/apis/user/model/dto/create-user.dto';
 import { LoginUserDto } from 'src/apis/user/model/dto/login-user.dto';
-import { UserInterface } from 'src/apis/user/model/user.interface';
+import { UserInterface } from 'src/apis/user/model/interface/user.interface';
 import { ActivateUserDto } from '../model/dto/activate-user.dto';
-import { AlchemyConfig } from 'alchemy-sdk';
 import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-validation';
 import { UserModel } from '../model/model/user.model';
 const bcrypt = require('bcrypt');
@@ -56,7 +55,6 @@ export class UserService {
       if (!isSignatureValid) {
         throw new BadRequestException('Invalid Wallet Address');
       }
-  
       console.log("Wallet Validated");
       return true;
     } catch (error) {
@@ -78,13 +76,12 @@ async login(loginUserDto: LoginUserDto): Promise<string> {
     if (!foundUser) {
       throw new UnauthorizedException('Login was not successful, wrong credentials');
     }
-
     const matches: boolean = await this.validatePassword(loginUserDto.password, foundUser.password);
     if (!matches) {
       throw new UnauthorizedException('Login was not successful, wrong credentials');
     }
-   console.log("fvjhjv") 
-    return this.authService.generateJwt(foundUser);
+    return "login succesful"
+     //return this.authService.generateJwt(foundUser);
   } catch (error) {
     if (error instanceof HttpException) {
       throw error; // Re-throw HttpException with the appropriate status code
@@ -95,7 +92,6 @@ async login(loginUserDto: LoginUserDto): Promise<string> {
     }
   }
 }
-
 
   private async validatePassword(password: string, storedPasswordHash: string): Promise<any> {
     return this.authService.comparePasswords(password, storedPasswordHash);

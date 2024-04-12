@@ -6,11 +6,11 @@
 
 import { BadRequestException, Body, Controller, Get, HttpStatus, Logger, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../model/dto/create-user.dto';
-import { UserInterface } from '../model/user.interface';
+import { UserInterface } from '../model/interface/user.interface';
 import { UserService } from '../service/user.service';
 import { ethers } from 'ethers';
 import { LoginUserDto } from '../model/dto/login-user.dto';
-import { LoginResponseInterface } from '../model/login.interface';
+import { LoginResponseInterface } from '../model/interface/login.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { ActivateUserDto } from '../model/dto/activate-user.dto';
 import { response } from 'express';

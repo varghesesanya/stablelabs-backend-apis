@@ -1,6 +1,6 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthService } from './apis/auth/auth.service';
@@ -22,6 +22,10 @@ import { UserModel } from './apis/user/model/model/user.model';
       url: process.env.MONGODB_URL || 'mongodb://localhost:27017/test',  // Use the environment variable or fallback to a default value
       autoLoadEntities: true,
       synchronize: true,
+    }),
+    JwtModule.register({
+      secret: "secret", // JWT Valid Key
+      signOptions: { expiresIn: '1h' }, // Optional: token expiration time
     })
   ],
   controllers: [UserController, WalletController],
