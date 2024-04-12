@@ -3,14 +3,12 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthService } from './auth/auth.service';
-import { UserController } from './user/controller/user.controller';
-import { UserSchema } from './user/model/schema/user.schema';
-import { UserService } from './user/service/user-service/user.service';
-import { WalletService } from './wallet/wallet-tracker.service';
-import { WalletController } from './wallet/wallet-tracker.controller';
+import { AuthService } from './apis/auth/auth.service';
+import { UserController } from './apis/user/controller/user.controller';
+import { UserSchema } from './apis/user/model/schema/user.schema';
+import { UserService } from './apis/user/service/user.service';
+import { WalletService } from './apis/wallet/wallet-tracker.service';
+import { WalletController } from './apis/wallet/wallet-tracker.controller';
 
 @Module({
   imports: [
@@ -24,8 +22,8 @@ import { WalletController } from './wallet/wallet-tracker.controller';
       synchronize: true,
     })
   ],
-  controllers: [AppController, UserController, WalletController],
-  providers: [AppService, UserService, AuthService, JwtService, WalletService],
+  controllers: [UserController, WalletController],
+  providers: [UserService, AuthService, JwtService, WalletService],
 })
 export class AppModule {
   constructor() {

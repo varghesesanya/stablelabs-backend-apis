@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, HttpStatus, Logger, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UserInterface } from '../model/user.interface';
-import { UserService } from '../service/user-service/user.service';
+import { UserService } from '../service/user.service';
 import { verifyUserWalletAddress } from 'src/alchemy/alchemy-multichain-validation';
 import { ethers } from 'ethers';
 import { LoginUserDto } from '../model/dto/login-user.dto';

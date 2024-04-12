@@ -2,10 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { verifyUserWalletAddress } from 'src/alchemy/alchemy-multichain-validation';
-import { AuthService } from 'src/auth/auth.service';
-import { CreateUserDto } from 'src/user/model/dto/create-user.dto';
-import { LoginUserDto } from 'src/user/model/dto/login-user.dto';
-import { UserInterface } from 'src/user/model/user.interface';
+import { AuthService } from 'src/apis/auth/auth.service';
+import { CreateUserDto } from 'src/apis/user/model/dto/create-user.dto';
+import { LoginUserDto } from 'src/apis/user/model/dto/login-user.dto';
+import { UserInterface } from 'src/apis/user/model/user.interface';
 const bcrypt = require('bcrypt');
 
 @Injectable()
