@@ -1,16 +1,14 @@
-import { Module, Logger } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from './user/model/schema/user.schema';
-import { UserController } from './user/controller/user.controller';
-import { UserService } from './user/service/user-service/user.service';
 import { AuthService } from './auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
+import { UserController } from './user/controller/user.controller';
+import { UserSchema } from './user/model/schema/user.schema';
+import { UserService } from './user/service/user-service/user.service';
 
 @Module({
   imports: [

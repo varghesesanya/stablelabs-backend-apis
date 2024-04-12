@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { verifyUserWalletAddress } from 'src/alchemy/alchemy-multichain-validation';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from 'src/user/model/dto/create-user.dto';
 import { LoginUserDto } from 'src/user/model/dto/login-user.dto';
@@ -19,7 +20,8 @@ export class UserService {
   async createUserAccount(createUserDto: CreateUserDto): Promise<UserInterface> {
     try {
       const exists: boolean = await this.mailExists(createUserDto.email);
-      if (!exists) {
+      const walletExists = verifyUserWalletAddress(createUserDto.walletAddress)
+      if (!exists && walletExists) {
         const passwordHash: string = await this.authService.hashPassword(createUserDto.password);
         const newUser = await new this.userModel(createUserDto);
         newUser.password = passwordHash;

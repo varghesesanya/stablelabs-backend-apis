@@ -18,7 +18,7 @@ export async function verifyUserWalletAddress(walletAddress: string): Promise<bo
   return ethResponse.isValid;
 }
 
-export async function getTokenBalance(network: Network, walletAddress: string, tokenAddress: string[]): Promise<TokenBalancesResponse>{
+export async function getTokenBalance(walletAddress: string, tokenAddress: string[]): Promise<TokenBalancesResponse>{
   const ethResponse = await alchemy.getTokenBalance(Network.ETH_MAINNET, walletAddress, tokenAddress);
   return ethResponse
 }
