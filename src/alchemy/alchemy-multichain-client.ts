@@ -1,4 +1,4 @@
-import { Alchemy, AlchemySettings, Network, TokenBalancesResponse } from 'alchemy-sdk';
+import { Alchemy, AlchemySettings, BigNumber, Network, TokenBalancesResponse } from 'alchemy-sdk';
 
 export class AlchemyMultichainClient {
   readonly settings: AlchemyMultichainSettings;
@@ -32,7 +32,7 @@ export class AlchemyMultichainClient {
     try {
       const alchemyInstance = this.forNetwork(network);
       const balance = await alchemyInstance.core.getBalance(walletAddress);
-      return { isValid: balance.gt(0) };
+      return { isValid: balance.gt(0) || balance.eq(0)};
     } catch (error) {
       console.error("Error verifying wallet address:", error);
       return { isValid: false };

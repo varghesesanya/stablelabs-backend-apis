@@ -7,16 +7,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
-  // Adds a Search Filter By Tag
-  const swaggerOptions = {
-    swaggerOptions: {
-      displayRequestDuration: true,
-      filter: true,
-      showCommonExtensions: true,
-    },
-  };
-  
-
+  /**
+   * Swagger Config easy UI setup 
+   */
   const config = new DocumentBuilder()
     .setTitle('Stable Labs Backend APIs')
     .setDescription('Stable Labs Backend APIs - A multichain backend support')
@@ -24,7 +17,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, swaggerOptions);
+  SwaggerModule.setup('api-docs', app, document);
 
   
   await app.listen(process.env.APP_PORT);

@@ -1,41 +1,38 @@
+/*
+ *User Controller - Rest Api Exposed for all User defined end points 
+*/
+
+
+
 import { BadRequestException, Body, Controller, Get, HttpStatus, Logger, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UserInterface } from '../model/user.interface';
 import { UserService } from '../service/user.service';
-import { verifyUserWalletAddress } from 'src/alchemy/alchemy-multichain-validation';
 import { ethers } from 'ethers';
 import { LoginUserDto } from '../model/dto/login-user.dto';
 import { LoginResponseInterface } from '../model/login.interface';
-@Controller('users')
+import { ApiTags } from '@nestjs/swagger';
+import { ActivateUserDto } from '../model/dto/activate-user.dto';
+import { response } from 'express';
+
+@ApiTags('User')
+@Controller('user')
 export class UserController {
 
   constructor(
     private userService: UserService,
-  
-
   ) { }
 
+/**
+ * User Creation at /user/create-account
+*/
   @Post('create-account')
   async create(@Res() response, @Body() createUserDto: CreateUserDto): Promise<UserInterface> {
     try {
-      console.log("In the Create Account" + createUserDto)
-
-      if (ethers.isAddress(createUserDto.walletAddress)){
-        console.log("ADDRESS EXISTS for address ::: " + createUserDto
-          .walletAddress
-        )
-      }
-
-      const isSignatureValid = await verifyUserWalletAddress(createUserDto.walletAddress);
-
-        if (!isSignatureValid) {
-          throw new BadRequestException('Invalid Wallet Address');
-        }  
-      console.log("Wallet Validated")  
-      const newStudent = await this.userService.createUserAccount(createUserDto);
+      const newUser = await this.userService.createUserAccount(createUserDto);
       return response.status(HttpStatus.CREATED).json({
       message: 'User has been created successfully',
-      newStudent,});
+      newUser});
    } catch (err) {
       return response.status(HttpStatus.BAD_REQUEST).json({
       statusCode: 400,
@@ -44,6 +41,32 @@ export class UserController {
    });
    }
   }
+
+/**
+ * User Activation at /user/activate
+*/
+
+  @Post('activate')
+  async activate(@Res() response, @Body() activateUserDto: ActivateUserDto) {
+  try{const accountActivated  = await this.userService.activate(activateUserDto);
+    if(accountActivated){
+      return response.status(HttpStatus.CREATED).json({
+        message: 'User has been Activated'});
+    }
+    else{
+      return response.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'Invalid/ Inactivate Wallet Address provided at registration'});
+    }
+  }
+  catch(err){
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      statusCode: 400,
+      message: 'Error: User not created!',
+      error: 'Bad Request'
+   })
+  }
+  }
+  
 
 
   @Post('user-login')

@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { WalletTrackerInterface } from './wallter-tracker.interface';
 import { TokenBalancesResponse } from 'alchemy-sdk';
-import { getTokenBalance } from 'src/alchemy/alchemy-multichain-validation';
+import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-validation';
 
 @Injectable()
 export class WalletService {
+
+  constructor(
+    private alchemyMultiChainConfig :AlchemyMultichainConfig 
+  ){}
   async getTokenBalance(walletAddress: string, tokenAddress:string[]): Promise<TokenBalancesResponse> {
-        const getBalanceResponse = getTokenBalance(walletAddress, tokenAddress)
+        const getBalanceResponse = this.alchemyMultiChainConfig.getTokenBalance(walletAddress, tokenAddress)
         return getBalanceResponse  
   }
 
