@@ -10,6 +10,7 @@ import { UserService } from './apis/user/service/user.service';
 import { WalletService } from './apis/wallet/wallet-tracker.service';
 import { WalletController } from './apis/wallet/wallet-tracker.controller';
 import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-validation';
+import { UserModel } from './apis/user/model/model/user.model';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-validation
     })
   ],
   controllers: [UserController, WalletController],
-  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig],
+  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig, UserModel],
 })
 export class AppModule {
   constructor() {
