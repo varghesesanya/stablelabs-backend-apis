@@ -9,7 +9,6 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('NFT')
 @Controller('nft')
-@UseInterceptors(CacheInterceptor)
 export class NFTController {
 
   constructor(
