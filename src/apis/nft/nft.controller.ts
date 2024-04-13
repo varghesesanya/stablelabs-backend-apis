@@ -1,13 +1,15 @@
 /*
  *NFT Controller - Rest Api Exposed for all NFT defined end points 
 */
-import { Controller, Post, Body, Res, Param, Get } from '@nestjs/common';
+import { Controller, Post, Body, Res, Param, Get, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { NFTService } from './nft.service';
 import { OwnedNftsResponse } from 'alchemy-sdk';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('NFT')
 @Controller('nft')
+@UseInterceptors(CacheInterceptor)
 export class NFTController {
 
   constructor(
