@@ -2,7 +2,9 @@
 import { Injectable } from '@nestjs/common';
 import { AlchemyMultichainConfig } from 'src/alchemy/alchemy-multichain-config';
 
-
+/**
+ * Get List of Transactions from Wallet Address using alchey sdk
+*/
 @Injectable()
 export class TransactionService {
   constructor(private readonly alchemyMultiConfig: AlchemyMultichainConfig) {}

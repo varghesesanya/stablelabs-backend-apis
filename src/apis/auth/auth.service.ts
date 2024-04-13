@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserInterface } from 'src/apis/user/model/interface/user.interface';
 const bcrypt = require('bcrypt');
+
+/**
+ * Supporting Methods for Hashing, JWT and Password Management
+*/
 @Injectable()
 export class AuthService {
 
