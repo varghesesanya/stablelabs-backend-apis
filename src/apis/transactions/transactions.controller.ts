@@ -7,7 +7,7 @@ import { TransactionService } from './transactions.service';
 
 @ApiTags('Transaction')
 @Controller('transaction')
-export class TransactionControler {
+export class TransactionController {
 
   constructor(
     private transactionService: TransactionService

@@ -2,14 +2,13 @@ import { Body, Controller, Get, Param } from '@nestjs/common';
 import { Network, TokenBalancesResponse } from 'alchemy-sdk';
 import { AlchemyMultichainClient } from 'src/alchemy/alchemy-multichain-client';
 import { WalletService } from './wallet-tracker.service';
-import { WalletTrackerDto } from './wallet-tracker.dto';
-import { WalletTrackerInterface } from './wallter-tracker.interface';
+import { WalletTrackerDto } from './model/wallet-tracker.dto';
+import { WalletTrackerInterface } from './model/wallter-tracker.interface';
 
 @Controller('wallet')
 export class WalletController {
   constructor(
     private walletService: WalletService,
-  
 
   ) { }
 

@@ -1,20 +1,19 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthService } from './apis/auth/auth.service';
-import { UserController } from './apis/user/controller/user.controller';
 import { UserSchema } from './apis/user/model/schema/user.schema';
-import { UserService } from './apis/user/service/user.service';
-import { WalletService } from './apis/wallet/wallet-tracker.service';
-import { WalletController } from './apis/wallet/wallet-tracker.controller';
-import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-config';
+import { TransactionsModule } from './apis/transactions/transactions.module';
+import { WalletModule } from './apis/wallet/wallet.module';
+import { NFTModule } from './apis/nft/nft.module';
+import { UserModule } from './apis/user/user.module';
+import { AuthModule } from './apis/auth/auth.module';
 import { UserModel } from './apis/user/model/model/user.model';
-import { TransactionService } from './apis/transactions/transactions.service';
-import { TransactionControler } from './apis/transactions/transactions.controller';
-import { NFTService } from './apis/nft/nft.service';
-import { NFTController } from './apis/nft/nft.controller';
+import { UserService } from './apis/user/service/user.service';
+import { AuthService } from './apis/auth/auth.service';
+import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-config';
+import { UserController } from './apis/user/controller/user.controller';
 
 @Module({
   imports: [
@@ -30,10 +29,14 @@ import { NFTController } from './apis/nft/nft.controller';
     JwtModule.register({
       secret: "secret", // JWT Valid Key
       signOptions: { expiresIn: '1h' }, // Optional: token expiration time
-    })
+    }),
+    AuthModule,
+    WalletModule,
+    TransactionsModule,
+    NFTModule
   ],
-  controllers: [UserController, WalletController,TransactionControler, NFTController],
-  providers: [UserService, AuthService, JwtService, WalletService, AlchemyMultichainConfig, UserModel, TransactionService, NFTService],
+  controllers:[UserController],
+  providers:[UserModel, UserService, AuthService, AlchemyMultichainConfig]
 })
 export class AppModule {
   constructor() {

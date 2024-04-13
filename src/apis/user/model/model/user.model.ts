@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserInterface } from '../interface/user.interface';
+import { CreateUserDto } from '../dto/create-user.dto';
 
 @Injectable()
 export class UserModel {
@@ -23,5 +24,14 @@ export class UserModel {
     } else {
       return false;
     }
+  }
+
+  async toUserInterface(createUserDto: CreateUserDto) :Promise<UserInterface>{
+    const user :  UserInterface =  new this.userModel({
+      email: createUserDto.email,
+      password: createUserDto.password,
+      walletAddress: createUserDto.walletAddress,
+  });
+  return user;
   }
 }
