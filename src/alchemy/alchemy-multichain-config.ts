@@ -1,7 +1,11 @@
+import { Logger } from '@nestjs/common';
 import { AlchemyMultichainClient } from './alchemy-multichain-client';
 import { AssetTransfersResponse, Network, OwnedNftsResponse, TokenBalancesResponse } from 'alchemy-sdk';
 
 export class AlchemyMultichainConfig{
+
+  private readonly logger = new Logger(AlchemyMultichainConfig.name);
+
   defaultConfig = {
     apiKey: 'xo-rjJ9wSTW97wzuL2eNzn9v3lGKNH9J',
   };
@@ -15,22 +19,26 @@ export class AlchemyMultichainConfig{
   alchemy = new AlchemyMultichainClient(this.defaultConfig, this.overrides);
   
   async verifyUserWalletAddress(walletAddress: string): Promise<boolean> {
+    this.logger.log("In AlchemyMultiChainConfig, verifying wallet address")
     const ethResponse = await this.alchemy.verifyAddress(Network.ETH_MAINNET, walletAddress);
     return ethResponse.isValid;
   }
   
   async fetchUserWalletAddress(walletAddress: string): Promise<boolean> {
+    this.logger.log("In AlchemyMultiChainConfig, fetching wallet address")
     const ethResponse = await this.alchemy.verifyAddress(Network.ETH_MAINNET, walletAddress);
     return ethResponse.isValid;
   }
   
   async getTokenBalance(walletAddress: string, tokenAddress: string[]): Promise<TokenBalancesResponse>{
+    this.logger.log("In AlchemyMultiChainConfig, get token balance")
     const ethResponse = await this.alchemy.getTokenBalance(Network.ETH_MAINNET, walletAddress, tokenAddress);
     return ethResponse
   }
 
   async getTransactionsFromAddress(walletAddress: string, page: number = 1, pageSize: number = 10): Promise<AssetTransfersResponse> {
     try {
+      this.logger.log("In AlchemyMultiChainConfig, get Transactions From an Address")
       const ethResponse: AssetTransfersResponse = await this.alchemy.getTransactionsFromAddress(Network.ETH_MAINNET, walletAddress);
       
       // Calculate pagination indices

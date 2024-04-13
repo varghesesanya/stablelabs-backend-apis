@@ -15,4 +15,9 @@ export class ActivateUserDto {
     required: true
  })
   username: string;
+  @ApiProperty({
+    example: 'Use this message to activate my account!',
+    required: true
+ })
+  message: string;
 }

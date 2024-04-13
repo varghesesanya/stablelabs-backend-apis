@@ -16,6 +16,9 @@ export class User {
   
   @Prop({ required: true })
   walletAddress :  string;
+
+  @Prop({default: false})
+  isAccountActivated : boolean
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

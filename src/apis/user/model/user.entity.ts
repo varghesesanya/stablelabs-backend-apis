@@ -15,6 +15,8 @@ export class UserEntity {
   @Column({unique: true})
   walletAddress :  string;
 
+  isAccountActivated :  boolean
+  
   @BeforeInsert()
   @BeforeUpdate()
   emailToLowerCase() {

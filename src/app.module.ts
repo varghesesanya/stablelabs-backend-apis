@@ -14,6 +14,7 @@ import { UserService } from './apis/user/service/user.service';
 import { AuthService } from './apis/auth/auth.service';
 import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-config';
 import { UserController } from './apis/user/controller/user.controller';
+import { WalletService } from './apis/wallet/wallet-tracker.service';
 
 @Module({
   imports: [
@@ -36,7 +37,7 @@ import { UserController } from './apis/user/controller/user.controller';
     NFTModule
   ],
   controllers:[UserController],
-  providers:[UserModel, UserService, AuthService, AlchemyMultichainConfig]
+  providers:[UserModel, UserService, AuthService, AlchemyMultichainConfig, WalletService]
 })
 export class AppModule {
   constructor() {
