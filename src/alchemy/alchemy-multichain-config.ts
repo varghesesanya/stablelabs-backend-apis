@@ -13,8 +13,9 @@ export class AlchemyMultichainConfig{
   overrides = {
     // TODO: Replace with your API keys.
     [Network.ETH_MAINNET]: { apiKey: 'xo-rjJ9wSTW97wzuL2eNzn9v3lGKNH9J' },
-    [Network.MATIC_MAINNET]: { apiKey: 'matic-api-key', maxRetries: 10 },
-    [Network.ARB_MAINNET]: { apiKey: 'arb-api-key' }
+    [Network.MATIC_MUMBAI]: { apiKey: 'matic-api-key', maxRetries: 10 },
+    [Network.ETH_SEPOLIA]: { apiKey: 'eth-api-key' },
+    [Network.ARB_SEPOLIA]: { apiKey: 'arb-api-key' },
   };
   alchemy = new AlchemyMultichainClient(this.defaultConfig, this.overrides);
   
