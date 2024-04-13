@@ -7,7 +7,6 @@ import { UserSchema } from './apis/user/model/schema/user.schema';
 import { TransactionsModule } from './apis/transactions/transactions.module';
 import { WalletModule } from './apis/wallet/wallet.module';
 import { NFTModule } from './apis/nft/nft.module';
-import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { UserModel } from './apis/user/model/model/user.model';
 import { UserService } from './apis/user/service/user.service';
@@ -15,9 +14,18 @@ import { AuthService } from './apis/auth/auth.service';
 import { AlchemyMultichainConfig } from './alchemy/alchemy-multichain-config';
 import { UserController } from './apis/user/controller/user.controller';
 import { WalletService } from './apis/wallet/wallet-tracker.service';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+
+
 
 @Module({
   imports: [
+    CacheModule.register({
+      ttl: 5, // seconds
+      max: 10, // maximum number of items in cache
+    }),
     ConfigModule.forRoot(),  // Load environment variables from .env file
     MongooseModule.forRoot (process.env.MONGODB_URL),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
@@ -28,16 +36,27 @@ import { WalletService } from './apis/wallet/wallet-tracker.service';
       synchronize: true,
     }),
     JwtModule.register({
-      secret: "secret", // JWT Valid Key
+      secret: process.env.JWT_KEY, // JWT Valid Key
       signOptions: { expiresIn: '1h' }, // Optional: token expiration time
     }),
+    ThrottlerModule.forRoot([{
+      ttl: 60,
+      limit: 10,
+    }]),
     AuthModule,
     WalletModule,
     TransactionsModule,
     NFTModule
   ],
   controllers:[UserController],
-  providers:[UserModel, UserService, AuthService, AlchemyMultichainConfig, WalletService]
+  providers:[{
+    provide: APP_INTERCEPTOR,
+    useClass: CacheInterceptor,
+  }, {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard
+  }
+  ,UserModel, UserService, AuthService, AlchemyMultichainConfig, WalletService]
 })
 export class AppModule {
   constructor() {
