@@ -1,73 +1,115 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Backend REST-API for Wallet Details with Alchemy API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This repository contains a backend REST-API designed to provide details about a particular wallet address using the Alchemy API. The application is multi-chain, supporting the following networks:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Polygon Mumbai / Amoy
+- Ethereum Sepolia
+- Avalanche Fuji
+- Arbitrum Sepolia
 
-## Description
+## Endpoints
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### User Management
 
-## Installation
+1. **Create User**
+   - **Endpoint:** `POST /api/user/create-account`
+   - **Description:** Creates a new user account with details such as username, email, password, and wallet address.
+   - **Request Body:** 
+     ```json
+     {
+       "username": "example_user",
+       "email": "user@example.com",
+       "password": "password123",
+       "walletAddress": "0x123456789abcdef123456789abcdef123456789a"
+     }
+     ```
+   - **Response:** Returns the created user object.
 
-```bash
-$ npm install
-```
+2. **Verify User Wallet With Only Address**
+   - **Endpoint:** `POST /api/user/activate`
+   - **Description:** Verifies the user's wallet through signature verification.
+   - **Request Body:** 
+     ```json
+     {
+       "walletAddress": "wallet_address"
+     }
+     ```
+   - **Response:** Returns a success message upon successful verification.
 
-## Running the app
+3. **Verify User Wallet With Signature**
+   - **Endpoint:** `POST /api/user/activate-signature`
+   - **Description:** Verifies the user's wallet through signature verification.
+   - **Request Body:** 
+     ```json
+     {
+       "signature": "signature_value",
+       "signMessage": "message_to_sign"
+     }
+     ```
+   - **Response:** Returns a success message upon successful verification.   
 
-```bash
-# development
-$ npm run start
+3. **User Authentication**
+   - **Endpoint:** `/api/auth`
+   - **Description:** Supports email, MetaMask login, and Google OAuth login.
 
-# watch mode
-$ npm run start:dev
+### Transactions
 
-# production mode
-$ npm run start:prod
-```
+1. **Transfer Transactions**
+   - **Endpoint:** `GET /api/transactions`
+   - **Description:** Retrieves paginated transfer-based transactions to and from a particular address, ordered from most recent to older periods.
+   - **Query Parameters:**
+     - `address`: Wallet address
+     - `page`: Page number (optional)
+     - `limit`: Number of transactions per page (optional)
+   - **Response:** Returns paginated transactions with timestamps included.
 
-## Test
+### Token Operations
 
-```bash
-# unit tests
-$ npm run test
+1. **Token Balances**
+   - **Endpoint:** `GET /api/tokens/balances`
+   - **Description:** Retrieves a list of token balances for a particular wallet address.
+   - **Query Parameters:**
+     - `address`: Wallet address
+   - **Response:** Returns a list of token balances.
 
-# e2e tests
-$ npm run test:e2e
+2. **Token Metadata**
+   - **Endpoint:** `GET /api/tokens/:tokenAddress/metadata`
+   - **Description:** Retrieves metadata for a particular token.
+   - **Path Parameter:**
+     - `tokenAddress`: Address of the token
+   - **Response:** Returns metadata for the token.
 
-# test coverage
-$ npm run test:cov
-```
+### NFT Operations
 
-## Support
+1. **List NFTs**
+   - **Endpoint:** `GET /api/nfts`
+   - **Description:** Retrieves a list of NFTs (both ERC721 and ERC1155) held by a particular address.
+   - **Query Parameters:**
+     - `address`: Wallet address
+   - **Response:** Returns a list of NFTs with metadata and amounts.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Security and Performance
 
-## Stay in touch
+1. **Authentication**
+   - **Description:** Endpoints are secured with JWT authentication.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+2. **Throttling and Rate Limiting**
+   - **Description:** Endpoints are throttled and rate-limited to prevent DDoS attacks.
 
-## License
+3. **Caching**
+   - **Description:** Data is cached for users with a smart key-eviction policy to improve performance.
 
-Nest is [MIT licensed](LICENSE).
+4. **Real-time Data Changes**
+   - **Description:** Real-time change data for wallets for transactions
+
+## Setup Instructions
+
+1. Clone this repository.
+2. Install dependencies using `npm install`.
+3. Set up environment variables such as API keys and database credentials.
+4. Start the server using `npm start`.
+5. Swagger URLs available at http://localhost:3000/api-docs/
+
+## Contributors
+
+- [Your Name](https://github.com/varghesesanya) - Description of contributions.
